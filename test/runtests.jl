@@ -1,5 +1,13 @@
 using Matching
 using Base.Test
 
-# write your own tests here
-@test 1 == 2
+tests = ["basic"]
+
+println("Running tests ...")
+
+for t in tests
+  fn = "test_$t.jl"
+  println("* $fn ...")
+  include(fn)
+end
+

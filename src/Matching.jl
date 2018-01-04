@@ -1,5 +1,11 @@
 module Matching
+import Base: >=, <=, >, <, copy, show
 
-# package code goes here
+export 
+  Agent, PreferenceRanking, Preference, Agent, RankedPreferences, prefers, add_rank!,
+  gale_shapley
 
-end # module
+include("types.jl")
+include("deferred_acceptance.jl")
+
+end
