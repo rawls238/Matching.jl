@@ -1,10 +1,11 @@
 mutable struct Agent
   name::AbstractString
   capacity::Int64
+  capacity_reduction::Int64
 end
 hash(a::Agent) = hash(a.name)
 isequal(a::Agent, b::Agent) = a.name == b.name
-Agent(name::AbstractString) = Agent(name, 1)
+Agent(name::AbstractString) = Agent(name, 1, 1)
 
 @enum PreferenceRanking strictly_prefers = 2 weakly_prefers = 1 indifferent = 0 weakly_not_prefer = -1 strictly_not_prefer = -2
 

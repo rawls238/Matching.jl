@@ -50,8 +50,8 @@ function run_ttc_iteration(proposing_group::AbstractVector{Agent}, other_group::
     		agent_1 = node_to_agent_map[cycle[i]]
     		agent_2 = node_to_agent_map[cycle[i+1]]
     		if agent_1.capacity > 0 && agent_2.capacity > 0
-	    		agent_2.capacity = agent_2.capacity - 1
-	    		agent_1.capacity = agent_1.capacity - 1
+	    		agent_2.capacity = agent_2.capacity - agent_1.capacity_reduction
+	    		agent_1.capacity = agent_1.capacity - agent_2.capacity_reduction
 	    		if cycle[i] <= num_proposals
 		    		matchings[agent_1] = agent_2
 		    	else
@@ -77,7 +77,7 @@ end
 
 function ttc_with_counter(proposing_group::AbstractVector{Agent}, other_group::AbstractVector{Agent}, rankings::RankedPreferences)
 	matchings = Dict{Agent, Agent}()
-	while length(proposing_group) > 0
+	while length(proposing_group) != 0 && length(other_group) != 0
 		new_matchings, proposing_group, other_group = run_ttc_iteration(proposing_group, other_group, rankings)
 		merge!(matchings, new_matchings)
 	end
