@@ -1,5 +1,5 @@
 using Matching
-using Base.Test
+using Test
 
 tests = ["basic"]
 

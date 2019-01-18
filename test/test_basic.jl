@@ -1,5 +1,5 @@
 using Matching
-using Base.Test
+using Test
 
 agent_a = Agent("a")
 agent_b = Agent("b")
@@ -30,3 +30,41 @@ matching_2 = matching_2.results
 @test matching_2[agent_2] == agent_a
 @test matching_2[agent_3] == agent_b
 @test matching_2[agent_1] == agent_c
+
+
+rankings= RankedPreferences()
+add_rank!(rankings, agent_a, [agent_1, agent_2, agent_3])
+add_rank!(rankings, agent_b, [agent_1, agent_3, agent_2])
+add_rank!(rankings, agent_c, [agent_1, agent_3, agent_2])
+
+add_rank!(rankings, agent_1, [agent_c, agent_b, agent_a])
+add_rank!(rankings, agent_2, [agent_c, agent_b, agent_a])
+add_rank!(rankings, agent_3, [agent_c, agent_a, agent_b])
+matching_3 = ttc_with_counter([agent_a, agent_b, agent_c], [agent_1, agent_2, agent_3], rankings)
+print(matching_3)
+matching_3 = matching_3.results
+@test matching_3[agent_a] == agent_2
+@test matching_3[agent_b] == agent_3
+@test matching_3[agent_c] == agent_1
+
+
+agent_a = Agent("a")
+agent_b = Agent("b")
+agent_c = Agent("c")
+agent_1 = Agent("1", 2)
+agent_2 = Agent("2")
+agent_3 = Agent("3")
+rankings= RankedPreferences()
+add_rank!(rankings, agent_a, [agent_1, agent_2, agent_3])
+add_rank!(rankings, agent_b, [agent_1, agent_3, agent_2])
+add_rank!(rankings, agent_c, [agent_1, agent_3, agent_2])
+
+add_rank!(rankings, agent_1, [agent_c, agent_b, agent_a])
+add_rank!(rankings, agent_2, [agent_c, agent_b, agent_a])
+add_rank!(rankings, agent_3, [agent_c, agent_a, agent_b])
+matching_3 = ttc_with_counter([agent_a, agent_b, agent_c], [agent_1, agent_2, agent_3], rankings)
+print(matching_3)
+matching_3 = matching_3.results
+@test matching_3[agent_a] == agent_2
+@test matching_3[agent_b] == agent_1
+@test matching_3[agent_c] == agent_1

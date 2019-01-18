@@ -1,18 +1,20 @@
-type Agent
+mutable struct Agent
   name::AbstractString
+  capacity::Int64
 end
 hash(a::Agent) = hash(a.name)
 isequal(a::Agent, b::Agent) = a.name == b.name
+Agent(name::AbstractString) = Agent(name, 1)
 
 @enum PreferenceRanking strictly_prefers = 2 weakly_prefers = 1 indifferent = 0 weakly_not_prefer = -1 strictly_not_prefer = -2
 
-type Preferences
+struct Preferences
   a::Agent
   b::Agent
   ranking::PreferenceRanking
 end
 
-type RankedPreferences
+struct RankedPreferences
   ranking::Dict{Agent, Vector{Agent}}
 end
 RankedPreferences() = RankedPreferences(Dict{Agent, Vector{Agent}}())
@@ -22,7 +24,7 @@ function add_rank!(rankings::RankedPreferences, a::Agent, b::Vector{Agent})
 end
 copy(r::RankedPreferences) = RankedPreferences(copy(r.ranking))
 
-type Match
+struct Match
   results::Dict{Agent, Agent}
 end
 
